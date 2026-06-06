@@ -1372,6 +1372,7 @@ function fetchFxRates(){
    ========================================================= */
 const _origRenderPlaceholder=renderPlaceholder;
 renderPlaceholder=function(view){
+  if(view==='quickchatter'){renderQuickChatter();return;}
   if(view==='templates'){renderTemplatesHub();return;}
   if(view==='bank'){renderBank();return;}
   if(view==='compare'){renderCompare();return;}
