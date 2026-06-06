@@ -1767,6 +1767,42 @@ if(state.currentView==='program'&&state.currentProgram){renderProgramView();}
 /* =========================================================
    BOOTSTRAP
    ========================================================= */
+/* =========================================================
+   QUICK CHATTER COPY CAPSULES
+   ========================================================= */
+function renderChatterCapsules(){
+  const container=document.getElementById('chatterCapsules');
+  if(!container)return;
+  const uniColors={'MIT':'#3B2A82','HMS':'#0EA5E9','JHU':'#2563EB','IMP':'#7C3AED','WH':'#F59E0B','KLG':'#DC2626'};
+  let html='';
+  DEFAULT_PROGRAMS.forEach(function(p){
+    const bg=uniColors[p.uniKey]||'#6B7280';
+    html+='<button onclick="quickCopyChatter(\''+p.id+'\', this)" title="Copy Chatter Note for '+escapeHtml(p.short)+'" style="background:'+bg+';color:#fff;border:none;border-radius:999px;padding:4px 10px;font-family:var(--font-mono);font-size:10.5px;font-weight:700;cursor:pointer;letter-spacing:.2px;transition:transform .12s, box-shadow .12s">'+p.wrike+'</button>';
+  });
+  container.innerHTML=html;
+}
+
+function quickCopyChatter(progId,btn){
+  const text=formatChatterText(progId);
+  navigator.clipboard.writeText(text).then(function(){
+    if(btn){
+      const orig=btn.innerHTML;
+      const origBg=btn.style.background;
+      btn.innerHTML='✓';
+      btn.style.background='#10B981';
+      btn.style.transform='scale(1.1)';
+      setTimeout(function(){
+        btn.innerHTML=orig;
+        btn.style.background=origBg;
+        btn.style.transform='';
+      },800);
+    }
+    const p=PROG_BY_ID[progId];
+    showToast('Chatter Note copied: '+(p?p.wrike:progId));
+  }).catch(function(err){
+    showToast('Copy failed: '+err.message);
+  });
+}  
 loadState();
 updateUserPill();
 updateLinksBadge();
