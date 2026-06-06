@@ -1828,8 +1828,7 @@ function quickCopyChatter(progId,btn){
   });
 }loadState();
 updateUserPill();
-updateLinksBadge();
-renderChatterCapsules();  
+updateLinksBadge(); 
 if(state.currentView==='program'&&state.currentProgram){if(typeof renderProgramView==='function')renderProgramView();else navigate('dashboard');}
 else if(state.currentView==='programs')renderProgramsList();
 else if(state.currentView!=='dashboard')navigate(state.currentView||'dashboard');
